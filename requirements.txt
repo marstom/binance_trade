@@ -1,0 +1,9 @@
+python-binance
+sqlalchemy
+pandas
+matplotlib
+
+ipython
+ipdb
+pytest
+pylint
