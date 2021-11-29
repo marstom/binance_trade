@@ -3,11 +3,12 @@ import pandas
 
 import sqlalchemy
 from binance.client import Client
+from binance.exceptions import BinanceAPIException
 from binance import BinanceSocketManager
 
 import secret
 import asyncio
-
+import config
 
 
 class TradeSocketColumns:
@@ -29,17 +30,21 @@ async def main():
 
     bsm = BinanceSocketManager(client)
 
-    pair = "PNTUSDT" # pNetwork
-    socket = bsm.trade_socket(pair)
-    engine = sqlalchemy.create_engine(f"sqlite:///{pair}-stream.sqlite")
+    socket = bsm.trade_socket(config.pair)
+    engine = sqlalchemy.create_engine(f"sqlite:///{config.pair}-stream.sqlite")
 
     while True:
         await socket.__aenter__()
-        msg = await socket.recv()
-        frame = create_frame(msg)
-        #sql
-        frame.to_sql(pair, engine, if_exists='append', index=False)
-        print(frame)
+        try:
+            msg = await socket.recv()
+            frame = create_frame(msg)
+            #sql
+            frame.to_sql(config.pair, engine, if_exists='append', index=False)
+            print(frame)
+        except BinanceAPIException as e:
+            print(f"Failed to read data from API{e}.")
+        except Exception as e:
+            print("Other exception occurs")
 
 if __name__ == "__main__":
     print("----------------Exec main-------------")

@@ -2,10 +2,10 @@ import sqlalchemy
 import pandas
 
 import matplotlib.pyplot
+import config
 
-pair = "PNTUSDT" # pNetwork
-engine = sqlalchemy.create_engine(f"sqlite:///{pair}-stream.sqlite")
+engine = sqlalchemy.create_engine(f"sqlite:///{config.pair}-stream.sqlite")
 
-df = pandas.read_sql(pair, engine)
+df = pandas.read_sql(config.pair, engine)
 df.price.plot()
 matplotlib.pyplot.show()
