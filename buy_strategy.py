@@ -10,7 +10,7 @@ import pandas
 import secret
 from binance.client import Client
 import config
-import time
+import time as tt
 
 engine = sqlalchemy.create_engine(f"sqlite:///{config.pair}-stream.sqlite")
 client = Client(secret.api_key, secret.api_secret)
@@ -21,7 +21,7 @@ Trend following strategy
 """
 def strategy(entry: float, loopback: int, qty: float, open_position: bool = False):
     while 1:
-        time.sleep(1)
+        tt.sleep(1)
         df = pandas.read_sql(config.pair, engine)
         # print(f"....df {df}")
         loopback_period = df.iloc[-loopback:]
@@ -39,10 +39,10 @@ def strategy(entry: float, loopback: int, qty: float, open_position: bool = Fals
                 break
     if open_position:
         while 1:
-            time.sleep(1)
+            tt.sleep(1)
             # print(f"....SELL DF {df}")
             df = pandas.read_sql(config.pair, engine)
-            since_buy = df.loc[df.Time > pandas.to_datetime(
+            since_buy = df.loc[df.time > pandas.to_datetime(
                 order['transactTime'],
                 unit='ms'
                 )]
@@ -61,4 +61,4 @@ def strategy(entry: float, loopback: int, qty: float, open_position: bool = Fals
 
 
 if __name__ == '__main__':
-    strategy(entry=0.001, loopback=60, qty=0.001)
+    strategy(entry=0.001, loopback=60, qty=0.001, open_position=True)

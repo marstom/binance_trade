@@ -45,6 +45,8 @@ async def main():
             print(f"Failed to read data from API{e}.")
         except Exception as e:
             print("Other exception occurs")
+        finally:
+            await socket.__aexit__(None, None, None)
 
 if __name__ == "__main__":
     print("----------------Exec main-------------")
