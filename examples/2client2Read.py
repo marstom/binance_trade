@@ -20,9 +20,8 @@ async def read_sock():
         await socket.__aenter__()
         msg = await socket.recv()
         print("asdf")
-        print(msg) # prices live!
+        print(msg)  # prices live!
 
 
 loop = asyncio.get_event_loop()
 loop.run_until_complete(read_sock())
-

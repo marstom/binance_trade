@@ -19,10 +19,10 @@ async def main():
 
     # create listener using async with
     # this will exit and close the connection after 5 messages
-    async with bsm.trade_socket('ETHBTC') as ts:
+    async with bsm.trade_socket("ETHBTC") as ts:
         for _ in range(5):
             res = await ts.recv()
-            print(f'recv {res}')
+            print(f"recv {res}")
 
     # get historical kline data from any date range
 
@@ -30,7 +30,9 @@ async def main():
     klines = client.get_historical_klines("BNBBTC", AsyncClient.KLINE_INTERVAL_1MINUTE, "1 day ago UTC")
 
     # use generator to fetch 1 minute klines for the last day up until now
-    async for kline in await client.get_historical_klines_generator("BNBBTC", AsyncClient.KLINE_INTERVAL_1MINUTE, "1 day ago UTC"):
+    async for kline in await client.get_historical_klines_generator(
+        "BNBBTC", AsyncClient.KLINE_INTERVAL_1MINUTE, "1 day ago UTC"
+    ):
         print(kline)
 
     # fetch 30 minute klines for the last month of 2017
@@ -40,7 +42,7 @@ async def main():
     klines = client.get_historical_klines("NEOBTC", Client.KLINE_INTERVAL_1WEEK, "1 Jan, 2017")
 
     # setup an async context the Depth Cache and exit after 5 messages
-    async with DepthCacheManager(client, symbol='ETHBTC') as dcm_socket:
+    async with DepthCacheManager(client, symbol="ETHBTC") as dcm_socket:
         for _ in range(5):
             depth_cache = await dcm_socket.recv()
             print(f"symbol {depth_cache.symbol} updated:{depth_cache.update_time}")
@@ -50,7 +52,7 @@ async def main():
             print(depth_cache.get_bids()[:5])
 
     # Vanilla options Depth Cache works the same, update the symbol to a current one
-    options_symbol = 'BTC-210430-36000-C'
+    options_symbol = "BTC-210430-36000-C"
     async with OptionsDepthCacheManager(client, symbol=options_symbol) as dcm_socket:
         for _ in range(5):
             depth_cache = await dcm_socket.recv()
@@ -62,6 +64,7 @@ async def main():
             print(depth_cache.get_bids()[:5])
 
     await client.close_connection()
+
 
 if __name__ == "__main__":
 

@@ -1,2 +1,2 @@
 # pair = "PNTUSDT" # pNetwork
-pair = "BTCUSDT" # bitcoin
+pair = "BTCUSDT"  # bitcoin
