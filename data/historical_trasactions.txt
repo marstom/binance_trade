@@ -1,0 +1,47 @@
+
+
+
+
+Buy crypto
+{'symbol': 'BTCUSDT', 'orderId': 8445965999, 'orderListId': -1, 'clientOrderId': 'gfbT4sjFjR8RpKQoEMzovz', 'transactTime': 1638213340747, 'price': '0.00000000', 'origQty': '0.00100000 ', 'executedQty': '0.00100000', 'cummulativeQuoteQty': '58.27886000', 'status': 'FILLED', 'timeInForce': 'GTC', 'type': 'MARKET', 'side': 'BUY', 'fills': [{'price': '58278.86000000', 'qty': '0.0 0100000', 'commission': '0.00000100', 'commissionAsset': 'BTC', 'tradeId': 1167816780}]}                                                                                                          
+
+Sell crypto
+{'symbol': 'BTCUSDT', 'orderId': 8445965999, 'orderListId': -1, 'clientOrderId': 'gfbT4sjFjR8RpKQoEMzovz', 'transactTime': 1638213340747, 'price': '0.00000000', 'origQty': '0.0010000 0', 'executedQty': '0.00100000', 'cummulativeQuoteQty': '58.27886000', 'status': 'FILLED', 'timeInForce': 'GTC', 'type': 'MARKET', 'side': 'BUY', 'fills': [{'price': '58278.86000000', 'qty': '0.  00100000', 'commission': '0.00000100', 'commissionAsset': 'BTC', 'tradeId': 1167816780}]}                                                                                                         
+
+Buy crypto
+{'symbol': 'BTCUSDT', 'orderId': 8446016813, 'orderListId': -1, 'clientOrderId': 'r40S566O49R8RZL4jUg1x0', 'transactTime': 1638213650152, 'price': '0.00000000', 'origQty': '0.00100000 ', 'executedQty': '0.00100000', 'cummulativeQuoteQty': '58.24401000', 'status': 'FILLED', 'timeInForce': 'GTC', 'type': 'MARKET', 'side': 'BUY', 'fills': [{'price': '58244.01000000', 'qty': '0.0 0100000', 'commission': '0.00000100', 'commissionAsset': 'BTC', 'tradeId': 1167823522}]}         
+Sell crypto
+{'symbol': 'BTCUSDT', 'orderId': 8446016813, 'orderListId': -1, 'clientOrderId': 'r40S566O49R8RZL4jUg1x0', 'transactTime': 1638213650152, 'price': '0.00000000', 'origQty': '0.0010000 0', 'executedQty': '0.00100000', 'cummulativeQuoteQty': '58.24401000', 'status': 'FILLED', 'timeInForce': 'GTC', 'type': 'MARKET', 'side': 'BUY', 'fills': [{'price': '58244.01000000', 'qty': '0.  00100000', 'commission': '0.00000100', 'commissionAsset': 'BTC', 'tradeId': 1167823522}]}        
+
+
+Buy crypto 
+{'symbol': 'BTCUSDT', 'orderId': 8446107461, 'orderListId': -1, 'clientOrderId': 'IsEORizv0Ge7et7eQh3LLU', 'transactTime': 1638214275274, 'price': '0.00000000', 'origQty': '0.00100000 ', 'executedQty': '0.00100000', 'cummulativeQuoteQty': '58.20347000', 'status': 'FILLED', 'timeInForce': 'GTC', 'type': 'MARKET', 'side': 'BUY', 'fills': [{'price': '58203.47000000', 'qty': '0.0 0100000', 'commission': '0.00000100', 'commissionAsset': 'BTC', 'tradeId': 1167834158}]}                                                                                                          
+
+Sell crypto
+{'symbol': 'BTCUSDT', 'orderId': 8446107461, 'orderListId': -1, 'clientOrderId': 'IsEORizv0Ge7et7eQh3LLU', 'transactTime': 1638214275274, 'price': '0.00000000', 'origQty': '0.0010000 0', 'executedQty': '0.00100000', 'cummulativeQuoteQty': '58.20347000', 'status': 'FILLED', 'timeInForce': 'GTC', 'type': 'MARKET', 'side': 'BUY', 'fills': [{'price': '58203.47000000', 'qty': '0.  00100000', 'commission': '0.00000100', 'commissionAsset': 'BTC', 'tradeId': 1167834158}]}                                                                                                         
+
+Buy crypto
+{'symbol': 'BTCUSDT', 'orderId': 8446162967, 'orderListId': -1, 'clientOrderId': 'aKKfrPNMoBC7GMDVMQSs8D', 'transactTime': 1638214638088, 'price': '0.00000000', 'origQty': '0.00100000 ', 'executedQty': '0.00100000', 'cummulativeQuoteQty': '58.12300000', 'status': 'FILLED', 'timeInForce': 'GTC', 'type': 'MARKET', 'side': 'BUY', 'fills': [{'price': '58123.00000000', 'qty': '0.0 0100000', 'commission': '0.00000100', 'commissionAsset': 'BTC', 'tradeId': 1167840712}]}                                                                                                          
+
+Sell crypto
+{'symbol': 'BTCUSDT', 'orderId': 8446162967, 'orderListId': -1, 'clientOrderId': 'aKKfrPNMoBC7GMDVMQSs8D', 'transactTime': 1638214638088, 'price': '0.00000000', 'origQty': '0.0010000 0', 'executedQty': '0.00100000', 'cummulativeQuoteQty': '58.12300000', 'status': 'FILLED', 'timeInForce': 'GTC', 'type': 'MARKET', 'side': 'BUY', 'fills': [{'price': '58123.00000000', 'qty': '0.  00100000', 'commission': '0.00000100', 'commissionAsset': 'BTC', 'tradeId': 1167840712}]}                                                                                                         
+
+Buy crypto
+{'symbol': 'BTCUSDT', 'orderId': 8446190099, 'orderListId': -1, 'clientOrderId': 'AdM4WxXqrtecbA4gDXaJpW', 'transactTime': 1638214840087, 'price': '0.00000000', 'origQty': '0.00100000 ', 'executedQty': '0.00100000', 'cummulativeQuoteQty': '58.12373000', 'status': 'FILLED', 'timeInForce': 'GTC', 'type': 'MARKET', 'side': 'BUY', 'fills': [{'price': '58123.73000000', 'qty': '0.0 0100000', 'commission': '0.00000100', 'commissionAsset': 'BTC', 'tradeId': 1167844215}]}                                                                                                          
+
+Sell crypto
+{'symbol': 'BTCUSDT', 'orderId': 8446190099, 'orderListId': -1, 'clientOrderId': 'AdM4WxXqrtecbA4gDXaJpW', 'transactTime': 1638214840087, 'price': '0.00000000', 'origQty': '0.0010000 0', 'executedQty': '0.00100000', 'cummulativeQuoteQty': '58.12373000', 'status': 'FILLED', 'timeInForce': 'GTC', 'type': 'MARKET', 'side': 'BUY', 'fills': [{'price': '58123.73000000', 'qty': '0.  00100000', 'commission': '0.00000100', 'commissionAsset': 'BTC', 'tradeId': 1167844215}]}                                                                                                         
+Buy crypto
+{'symbol': 'BTCUSDT', 'orderId': 8446231309, 'orderListId': -1, 'clientOrderId': 'gcfEbMz5y58q8B2ozXaTPv', 'transactTime': 1638215116084, 'price': '0.00000000', 'origQty': '0.00100000 ', 'executedQty': '0.00100000', 'cummulativeQuoteQty': '58.03122000', 'status': 'FILLED', 'timeInForce': 'GTC', 'type': 'MARKET', 'side': 'BUY', 'fills': [{'price': '58031.22000000', 'qty': '0.0 0100000', 'commission': '0.00000100', 'commissionAsset': 'BTC', 'tradeId': 1167849205}]}                                                                      
+
+Sell crypto
+{'symbol': 'BTCUSDT', 'orderId': 8446231309, 'orderListId': -1, 'clientOrderId': 'gcfEbMz5y58q8B2ozXaTPv', 'transactTime': 1638215116084, 'price': '0.00000000', 'origQty': '0.0010000 0', 'executedQty': '0.00100000', 'cummulativeQuoteQty': '58.03122000', 'status': 'FILLED', 'timeInForce': 'GTC', 'type': 'MARKET', 'side': 'BUY', 'fills': [{'price': '58031.22000000', 'qty': '0.  00100000', 'commission': '0.00000100', 'commissionAsset': 'BTC', 'tradeId': 1167849205}]}                                                                                                         
+
+Buy crypto
+{'symbol': 'BTCUSDT', 'orderId': 8446297330, 'orderListId': -1, 'clientOrderId': 'uZbSKBEMI1GYfmpTrP87F1', 'transactTime': 1638215546118, 'price': '0.00000000', 'origQty': '0.00100000 ', 'executedQty': '0.00100000', 'cummulativeQuoteQty': '58.03360000', 'status': 'FILLED', 'timeInForce': 'GTC', 'type': 'MARKET', 'side': 'BUY', 'fills': [{'price': '58033.60000000', 'qty': '0.0 0100000', 'commission': '0.00000100', 'commissionAsset': 'BTC', 'tradeId': 1167856466}]}                                                                                                          
+
+Sell crypto
+{'symbol': 'BTCUSDT', 'orderId': 8446297330, 'orderListId': -1, 'clientOrderId': 'uZbSKBEMI1GYfmpTrP87F1', 'transactTime': 1638215546118, 'price': '0.00000000', 'origQty': '0.0010000 0', 'executedQty': '0.00100000', 'cummulativeQuoteQty': '58.03360000', 'status': 'FILLED', 'timeInForce': 'GTC', 'type': 'MARKET', 'side': 'BUY', 'fills': [{'price': '58033.60000000', 'qty': '0.  00100000', 'commission': '0.00000100', 'commissionAsset': 'BTC', 'tradeId': 1167856466}]}                                   
+
+Buy crypto
+{'symbol': 'BTCUSDT', 'orderId': 8446358851, 'orderListId': -1, 'clientOrderId': '49cWzLDnRRK5VKqn6KnLR8', 'transactTime': 1638216002371, 'price': '0.00000000', 'origQty': '0.00100000 ', 'executedQty': '0.00100000', 'cummulativeQuoteQty': '57.87475000', 'status': 'FILLED', 'timeInForce': 'GTC', 'type': 'MARKET', 'side': 'BUY', 'fills': [{'price': '57874.75000000', 'qty': '0.0 0100000', 'commission': '0.00000100', 'commissionAsset': 'BTC', 'tradeId': 1167864417}]}         

@@ -55,4 +55,5 @@ def strategy(
 if __name__ == "__main__":
     engine = sqlalchemy.create_engine(f"sqlite:///{config.pair}-stream.sqlite")
     client = Client(secret.api_key, secret.api_secret)
-    strategy(entry=0.001, loopback=60, qty=0.001, open_position=True, sql_engine=engine, client=client)
+    while 1:
+        strategy(entry=0.001, loopback=60, qty=0.001, open_position=False, sql_engine=engine, client=client)

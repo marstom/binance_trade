@@ -1,3 +1,4 @@
 *.sqlite
 __pycache__/
 secret.py
+!data/buy_historical_data.sqlite
