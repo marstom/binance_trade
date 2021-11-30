@@ -18,6 +18,28 @@ def mocky_trade_socket_data():
     }
 
 
-
 def mocky_order():
-    return  {'symbol': 'BTCUSDT-mocky', 'orderId': 8441603048, 'orderListId': -1, 'clientOrderId': 'G7713dats1tu9rMaLKgiAV', 'transactTime': 1638181577656, 'price': '0.00000000', 'origQty': '0.00100000', 'executedQty': '0.00100000', 'cummulativeQuoteQty': '57.08876000', 'status': 'FILLED', 'timeInForce': 'GTC', 'type': 'MARKET', 'side': 'BUY', 'fills': [{'price': '57088.76000000', 'qty': '0.00100000', 'commission': '0.00000100', 'commissionAsset': 'BTC', 'tradeId': 1167287138}]}
+    return {
+        "symbol": "BTCUSDT-mocky",
+        "orderId": 8441603048,
+        "orderListId": -1,
+        "clientOrderId": "G7713dats1tu9rMaLKgiAV",
+        "transactTime": 1638181577656,
+        "price": "0.00000000",
+        "origQty": "0.00100000",
+        "executedQty": "0.00100000",
+        "cummulativeQuoteQty": "57.08876000",
+        "status": "FILLED",
+        "timeInForce": "GTC",
+        "type": "MARKET",
+        "side": "BUY",
+        "fills": [
+            {
+                "price": "57088.76000000",
+                "qty": "0.00100000",
+                "commission": "0.00000100",
+                "commissionAsset": "BTC",
+                "tradeId": 1167287138,
+            }
+        ],
+    }
