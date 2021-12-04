@@ -34,8 +34,9 @@ def test_df_generator():
 # TODO strategy not testable
 def test_strategy():
     client = FakeClient()
-    engine = sqlalchemy.create_engine(f"sqlite:///tests/buy_historical_data.sqlite")
+    engine = sqlalchemy.create_engine(f"sqlite:///tests/buy_historical_data.sqlite") # read only
     engine_memory = sqlalchemy.create_engine(f"sqlite:///:memory:")
+    engine_test_output = sqlalchemy.create_engine(f"sqlite:///tests/_temp.sqlite")
     df_gen = df_generator()
     read_from_sql = lambda: next(df_gen)
 

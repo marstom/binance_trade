@@ -3,7 +3,7 @@
 https://www.youtube.com/watch?v=rc_Y6rdBqXM&list=PL9ATnizYJ7f8_opOpLnekEZNsNVUVbCZN&index=2
 """
 
-from typing import Callable, Type
+from typing import Callable, Type, Dict
 import sqlalchemy
 import pandas
 import secret
@@ -16,6 +16,25 @@ import time as tt
 Trend following strategy
 """
 
+# TODO write somehow to sql
+def write_to_sql(engine: sqlalchemy.engine.Engine, table_name: str, df: pandas.DataFrame):
+    df.to_sql(table_name, engine, if_exists="append", index=False)
+    ...
+    engine.execute("CREATE table {table_name}")
+
+def write_order_data_to_sql(engine: sqlalchemy.engine.Engine, table_name: str, order: Dict):
+    engine.execute(f"""
+    CREATE TABLE IF NOT EXISTS {table_name} (
+	id INTEGER PRIMARY KEY,
+   	data TEXT NOT NULL,
+	column_3 data_type DEFAULT 0,
+    );
+   """)
+
+    engine.execute(f"""
+    INSERT INTO {table_name} (data)
+    ('{order}')
+    """)
 
 def strategy(
     entry: float,
@@ -23,6 +42,7 @@ def strategy(
     qty: float,
     currency_symbol: str,
     read_from_sql: Callable,
+    write_to_sql: Callable,
     open_position: bool = False,
     client: Client = None,
 ):
@@ -53,7 +73,7 @@ def strategy(
                 since_buy_ret = (since_buy.price.pct_change() + 1).cumprod() - 1
                 last_entry = since_buy_ret[since_buy_ret.last_valid_index()]
                 if last_entry > 0.0015 or last_entry < -0.0015:
-                    client.create_order(symbol=currency_symbol, side="SELL", type="MARKET", quantity=qty)
+                    order = client.create_order(symbol=currency_symbol, side="SELL", type="MARKET", quantity=qty)
                     print(f"Sell crypto {order}")
                     last_row = df.iloc[-1]
                     print(f"Last row sell: \n{last_row}")
