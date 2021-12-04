@@ -4,8 +4,8 @@ from enums import SideEnum
 
 
 class FakeClient:
-    def create_order(symbol: str, side: SideEnum, type: Literal["MARKET"], quantity: float):
-        if side == SideEnum.BUY:
+    def create_order(self, symbol: str, side: Literal["BUY", "SELL"], type: Literal["MARKET"], quantity: float):
+        if side == SideEnum.BUY.name:
             return {
                 "symbol": "BTCUSDT",
                 "orderId": 8445965999,
@@ -30,7 +30,7 @@ class FakeClient:
                     }
                 ],
             }
-        elif side == SideEnum.SELL:
+        elif side == SideEnum.SELL.name:
             return {
                 "symbol": "BTCUSDT",
                 "orderId": 8445965999,

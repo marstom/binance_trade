@@ -17,6 +17,8 @@ import pandas
 ...        ...                     ...       ...
 
 """
+
+
 def df_generator():
     engine = sqlalchemy.create_engine(f"sqlite:///tests/buy_historical_data.sqlite")
     df = pandas.read_sql("BTCUSDT", engine)
@@ -24,20 +26,25 @@ def df_generator():
         yield df.iloc[:i]
 
 
-
 def test_df_generator():
     print()
     df_generator()
+
 
 # TODO strategy not testable
 def test_strategy():
     client = FakeClient()
     engine = sqlalchemy.create_engine(f"sqlite:///tests/buy_historical_data.sqlite")
     engine_memory = sqlalchemy.create_engine(f"sqlite:///:memory:")
-    # res = engine.execute("select * from BTCUSDT")
-
-    # engine.execute("SELECT * FROM BTCUSDT;")
     df_gen = df_generator()
-    generator = lambda a, b: next(df_gen)
-    with mock.patch.object(buy_strategy.pandas, "read_sql", generator):
-        strategy(entry=0.001, loopback=60, qty=0.001, currency_symbol="BTCUSDT", open_position=False, sql_engine=engine, client=client)
+    read_from_sql = lambda: next(df_gen)
+
+    strategy(
+        entry=0.001,
+        loopback=60,
+        qty=0.001,
+        currency_symbol="BTCUSDT",
+        open_position=False,
+        client=client,
+        read_from_sql=read_from_sql,
+    )
