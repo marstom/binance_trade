@@ -1,5 +1,6 @@
 from typing import Dict
 import pandas
+import asyncio
 
 import sqlalchemy
 from binance.client import Client
@@ -7,7 +8,6 @@ from binance.exceptions import BinanceAPIException
 from binance import BinanceSocketManager
 
 import secret
-import asyncio
 import config
 
 
