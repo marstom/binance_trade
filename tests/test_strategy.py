@@ -1,6 +1,6 @@
 import sqlalchemy
 from unittest import mock
-from buy_strategy import strategy
+from buy_strategy import strategy, WriteOrder, WriteDf
 import buy_strategy
 from .fake_binance_client import FakeClient
 
@@ -45,6 +45,8 @@ def test_strategy():
         loopback=60,
         qty=0.001,
         currency_symbol="BTCUSDT",
+        write_order=WriteOrder(engine_test_output, "my_order"),
+        write_df_to_sql=WriteDf(engine_test_output, "BUY_SELL"),
         open_position=False,
         client=client,
         read_from_sql=read_from_sql,

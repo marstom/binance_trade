@@ -3,6 +3,8 @@ sqlalchemy
 pandas
 matplotlib
 
+typing-extensions
+
 ipython
 ipdb
 pytest

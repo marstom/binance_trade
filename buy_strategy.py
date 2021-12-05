@@ -4,37 +4,80 @@ https://www.youtube.com/watch?v=rc_Y6rdBqXM&list=PL9ATnizYJ7f8_opOpLnekEZNsNVUVb
 """
 
 from typing import Callable, Type, Dict
+from typing_extensions import Protocol
 import sqlalchemy
 import pandas
 import secret
 from binance.client import Client
 import config
 import time as tt
-
+import json
 
 """
 Trend following strategy
 """
 
-# TODO write somehow to sql
-def write_to_sql(engine: sqlalchemy.engine.Engine, table_name: str, df: pandas.DataFrame):
-    df.to_sql(table_name, engine, if_exists="append", index=False)
-    ...
-    engine.execute("CREATE table {table_name}")
 
-def write_order_data_to_sql(engine: sqlalchemy.engine.Engine, table_name: str, order: Dict):
-    engine.execute(f"""
-    CREATE TABLE IF NOT EXISTS {table_name} (
-	id INTEGER PRIMARY KEY,
-   	data TEXT NOT NULL,
-	column_3 data_type DEFAULT 0,
-    );
-   """)
+class Writeable(Protocol):
+    def write(self, data):
+        ...
 
-    engine.execute(f"""
-    INSERT INTO {table_name} (data)
-    ('{order}')
-    """)
+
+class WriteOrder:
+
+    def __init__(self, engine: sqlalchemy.engine.Engine, table_name: str) -> None:
+        self.engine = engine
+        self.table_name = table_name
+    
+    def write(self, data):
+        json_data = json.dumps(data)
+        self.engine.execute(f"""
+        create table if not exists {self.table_name}(
+            id int primary key asc,
+            data text);
+        """)
+
+        self.engine.execute(f"""
+        INSERT INTO {self.table_name} (data)
+        VALUES
+        ('{json_data}')
+        """)
+
+
+class WriteDf:
+    """
+    {120: {'symbol': 'BTCUSDT', 'time': Timestamp('2021-11-29 13:46:41.482000'), 'price': 57365.28}}
+    """
+    def __init__(self, engine: sqlalchemy.engine.Engine, table_name: str) -> None:
+        self.engine = engine
+        self.table_name = table_name
+    
+    def write(self, data):
+        print('--------------------------------------------***')
+        print(data)
+        dict_data = data.to_dict() # TODO sometimes nested dict sometimes not :( 
+        print(dict_data)
+        self.engine.execute(f"""
+        create table if not exists {self.table_name}(
+            id int primary key asc,
+            frame_number int,
+            symbol TEXT,
+            time TIMESTAMP,
+            price REAL
+            );
+        """)
+        for frame_number, value in dict_data.items():
+            print(f"frame number {frame_number}")
+            self.engine.execute(f"""
+            INSERT INTO {self.table_name} (frame_number, symbol, time, price)
+            VALUES
+            (
+                {frame_number},
+                "{value["symbol"]}",
+                "{value["time"]}",
+                {value["price"]}
+            );
+            """)
 
 def strategy(
     entry: float,
@@ -42,7 +85,8 @@ def strategy(
     qty: float,
     currency_symbol: str,
     read_from_sql: Callable,
-    write_to_sql: Callable,
+    write_order: Writeable,
+    write_df_to_sql: Writeable,
     open_position: bool = False,
     client: Client = None,
 ):
@@ -59,9 +103,11 @@ def strategy(
                 print(currency_symbol)
                 order = client.create_order(symbol=currency_symbol, side="BUY", type="MARKET", quantity=qty)
                 print(f"Buy crypto {order}")
+                write_order.write(order)
                 open_position = True
                 last_row = df.iloc[-1]
                 print(f"Last row buy: \n{last_row}")
+                write_df_to_sql.write(pandas.DataFrame(last_row))
                 break
     if open_position:
         while 1:
@@ -75,8 +121,10 @@ def strategy(
                 if last_entry > 0.0015 or last_entry < -0.0015:
                     order = client.create_order(symbol=currency_symbol, side="SELL", type="MARKET", quantity=qty)
                     print(f"Sell crypto {order}")
+                    write_order.write(order)
                     last_row = df.iloc[-1]
                     print(f"Last row sell: \n{last_row}")
+                    write_df_to_sql.write(last_row)
                     break
 
 
