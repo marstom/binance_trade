@@ -7,10 +7,10 @@ class FakeClient:
     def create_order(self, symbol: str, side: Literal["BUY", "SELL"], type: Literal["MARKET"], quantity: float):
         if side == SideEnum.BUY.name:
             return {
-                "symbol": "BTCUSDT",
-                "orderId": 8445965999,
+                "symbol": "fake_BTCUSDT",
+                "orderId": 0,
                 "orderListId": -1,
-                "clientOrderId": "gfbT4sjFjR8RpKQoEMzovz",
+                "clientOrderId": "fake_gfbT4sjFjR8RpKQoEMzovz",
                 "transactTime": 1638213340747,
                 "price": "0.00000000",
                 "origQty": "0.00100000 ",
@@ -32,10 +32,10 @@ class FakeClient:
             }
         elif side == SideEnum.SELL.name:
             return {
-                "symbol": "BTCUSDT",
-                "orderId": 8445965999,
+                "symbol": "fake_BTCUSDT",
+                "orderId": 0,
                 "orderListId": -1,
-                "clientOrderId": "gfbT4sjFjR8RpKQoEMzovz",
+                "clientOrderId": "fake_gfbT4sjFjR8RpKQoEMzovz",
                 "transactTime": 1638213340747,
                 "price": "0.00000000",
                 "origQty": "0.0010000 0",

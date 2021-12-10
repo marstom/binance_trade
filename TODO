@@ -1,0 +1,4 @@
+[ ] Create makefile
+[ ] Create frontend for running strategies
+[ ] Change db to postgresql
+[ ] Support other coins (different buy parameters for other coins)
