@@ -45,7 +45,7 @@ def test_strategy():
         loopback=60,
         qty=0.001,
         currency_symbol="BTCUSDT",
-        write_order=WriteOrder(engine_test_output, "my_order"),
+        write_order=WriteOrder(engine_test_output, "MY_ORDER"),
         write_df_to_sql=WriteDf(engine_test_output, "BUY_SELL"),
         open_position=False,
         client=client,

@@ -13,6 +13,9 @@ import config
 import time as tt
 import json
 import logging
+from sys import argv
+
+from tests.fake_binance_client import FakeClient
 
 logging.basicConfig(format='%(levelname)s:%(message)s', level=logging.DEBUG)
 
@@ -124,14 +127,25 @@ def strategy(
 
 
 if __name__ == "__main__":
+
+    if len(argv) != 2:
+        raise Exception("Must be: --real or --fake")
+
     engine = sqlalchemy.create_engine(f"sqlite:///{config.pair}-stream.sqlite")
-    client = Client(secret.api_key, secret.api_secret)
+    if argv[1] == "--real":
+        client = Client(secret.api_key, secret.api_secret)
+    elif argv[1] == "--fake":
+        client = FakeClient()
+    else:
+        raise Exception("Wrong client type, must be: --real or --fake")
     strategy(
         entry=0.001,
         loopback=60,
         qty=0.001,
         currency_symbol=config.pair,
+        write_order=WriteOrder(engine, "MY_ORDER"),
+        write_df_to_sql=WriteDf(engine, "BUY_SELL"),
         open_position=False,
-        sql_engine=engine,
         client=client,
+        read_from_sql=lambda: pandas.read_sql(config.pair, engine),
     )
