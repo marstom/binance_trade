@@ -1,0 +1,41 @@
+import sqlalchemy
+from binance.client import Client
+from sys import argv
+import argparse
+import os
+
+
+from strategy_factory import strategy_factory
+from types_internal import StrategyType
+from tests.fake_binance_client import FakeClient
+try:
+    import secret
+except ImportError:
+    raise ModuleNotFoundError("Please create module secrety.py which contains 2 variables: api_key, api_secret")
+
+def entrypoint(
+  strategy_type: StrategyType,
+  currency_symbol: str,
+  client: Client,
+):
+    if not os.path.isfile(f"{currency_symbol}-stream.sqlite"):
+        raise FileNotFoundError("No such database, you must run worker, read_client.py")
+    engine = sqlalchemy.create_engine(f"sqlite:///{currency_symbol}-stream.sqlite")
+    strategy_factory(strategy_type, currency_symbol, client, engine)
+
+if __name__ == "__main__":
+    # TODO use argparse or some library like click
+
+    if len(argv) != 4:
+        raise Exception("Must be 3 arguments (operation --real/--fale) (strategy <name>), currency symbol <name>")
+    if argv[1] == "--real":
+        client = Client(secret.api_key, secret.api_secret)
+    elif argv[1] == "--fake":
+        client = FakeClient()
+    else:
+        raise Exception("Wrong client type, must be: --real or --fake")
+
+    _, _, strategy_name, currency_symbol = argv
+
+    # entrypoint("TrendFollowing", "BTCUSDT", client)
+    entrypoint(strategy_name, currency_symbol, client)

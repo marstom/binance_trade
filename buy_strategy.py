@@ -3,19 +3,18 @@
 https://www.youtube.com/watch?v=rc_Y6rdBqXM&list=PL9ATnizYJ7f8_opOpLnekEZNsNVUVbCZN&index=2
 """
 
-from typing import Callable, Type, Dict
-from typing_extensions import Protocol
+from typing import Callable
 import sqlalchemy
 import pandas
 import secret
 from binance.client import Client
 import config
-import time as tt
-import json
 import logging
 from sys import argv
 
 from tests.fake_binance_client import FakeClient
+from db_schemas.buy_info_db import WriteDf, WriteOrder
+from db_schemas.writeable import Writeable
 
 logging.basicConfig(format='%(levelname)s:%(message)s', level=logging.DEBUG)
 
@@ -24,61 +23,6 @@ logging.basicConfig(format='%(levelname)s:%(message)s', level=logging.DEBUG)
 Trend following strategy
 """
 
-
-class Writeable(Protocol):
-    def write(self, data):
-        ...
-
-
-class WriteOrder:
-
-    def __init__(self, engine: sqlalchemy.engine.Engine, table_name: str) -> None:
-        self.engine = engine
-        self.table_name = table_name
-    
-    def write(self, data):
-        json_data = json.dumps(data)
-        self.engine.execute(f"""
-        create table if not exists {self.table_name}(
-            id int primary key asc,
-            data text);
-        """)
-
-        self.engine.execute(f"""
-        INSERT INTO {self.table_name} (data)
-        VALUES
-        ('{json_data}')
-        """)
-
-
-class WriteDf:
-    """
-    {'symbol': 'BTCUSDT', 'time': Timestamp('2021-11-29 13:46:41.482000'), 'price': 57365.28}
-    """
-    def __init__(self, engine: sqlalchemy.engine.Engine, table_name: str) -> None:
-        self.engine = engine
-        self.table_name = table_name
-    
-    def write(self, data):
-        dict_data = data.to_dict()
-        self.engine.execute(f"""
-        create table if not exists {self.table_name}(
-            id int primary key asc,
-            symbol TEXT,
-            time TIMESTAMP,
-            price REAL
-            );
-        """)
-
-        self.engine.execute(f"""
-        INSERT INTO {self.table_name} (symbol, time, price)
-        VALUES
-        (
-            "{dict_data["symbol"]}",
-            "{dict_data["time"]}",
-            {dict_data["price"]}
-        );
-        """)
 
 def strategy(
     entry: float,
@@ -92,7 +36,6 @@ def strategy(
     client: Client = None,
 ):
     while 1:
-        # tt.sleep(1)
         df = read_from_sql()
         loopback_period = df.iloc[-loopback:]
         cummulative_return = (loopback_period.price.pct_change() + 1).cumprod() - 1
@@ -110,7 +53,6 @@ def strategy(
                 break
     if open_position:
         while 1:
-            # tt.sleep(1)
             df = read_from_sql()
             since_buy = df.loc[df.time > pandas.to_datetime(order["transactTime"], unit="ms")]
             if len(since_buy) > 1:
@@ -127,17 +69,15 @@ def strategy(
 
 
 if __name__ == "__main__":
-
     if len(argv) != 2:
         raise Exception("Must be: --real or --fake")
-
-    engine = sqlalchemy.create_engine(f"sqlite:///{config.pair}-stream.sqlite")
     if argv[1] == "--real":
         client = Client(secret.api_key, secret.api_secret)
     elif argv[1] == "--fake":
         client = FakeClient()
     else:
         raise Exception("Wrong client type, must be: --real or --fake")
+    engine = sqlalchemy.create_engine(f"sqlite:///{config.pair}-stream.sqlite")
     strategy(
         entry=0.001,
         loopback=60,
