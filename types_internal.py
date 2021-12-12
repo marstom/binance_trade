@@ -1,4 +1,4 @@
 from typing import Literal
 
 StrategyType = Literal["TrendFollowing"]
-CurrencySymbol = Literal["BTCUSDT"]
+CurrencySymbol = Literal["BTCUSDT", "DUSKUSDT"]

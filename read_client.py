@@ -1,15 +1,17 @@
+"""
+Script for readin live data and saving to db
+"""
 from typing import Dict
 import pandas
 import asyncio
-
+from sys import argv
 import sqlalchemy
 from binance.client import Client
 from binance.exceptions import BinanceAPIException
 from binance import BinanceSocketManager
 
 import secret
-import config
-
+from types_internal import CurrencySymbol
 
 class TradeSocketColumns:
     SYMBOL = "s"
@@ -26,13 +28,13 @@ def create_frame(msg: Dict):
     return df
 
 
-async def main():
+async def main(currency_symbol: CurrencySymbol):
     client = Client(secret.api_key, secret.api_secret)
 
     bsm = BinanceSocketManager(client)
 
-    socket = bsm.trade_socket(config.pair)
-    engine = sqlalchemy.create_engine(f"sqlite:///{config.pair}-stream.sqlite")
+    socket = bsm.trade_socket(currency_symbol)
+    engine = sqlalchemy.create_engine(f"sqlite:///db_sqlite/{currency_symbol}-stream.sqlite")
 
     while True:
         await socket.__aenter__()
@@ -40,7 +42,7 @@ async def main():
             msg = await socket.recv()
             frame = create_frame(msg)
             # sql
-            frame.to_sql(config.pair, engine, if_exists="append", index=False)
+            frame.to_sql(currency_symbol, engine, if_exists="append", index=False)
             print(frame)
         except BinanceAPIException as e:
             print(f"Failed to read data from API{e}.")
@@ -51,6 +53,10 @@ async def main():
 
 
 if __name__ == "__main__":
+    if len(argv) != 2:
+        raise Exception("Must be 1 argument: currency symbol <name>")
+
+    _, currency_symbol = argv
     print("----------------Exec main-------------")
     loop = asyncio.get_event_loop()
-    loop.run_until_complete(main())
+    loop.run_until_complete(main(currency_symbol))

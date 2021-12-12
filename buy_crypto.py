@@ -1,9 +1,13 @@
+"""
+Main entrypoint for buy/sell crypto
+console application
+
+python buy_crypto.py --fake TrendFollowing BTCUSDT
+"""
 import sqlalchemy
 from binance.client import Client
 from sys import argv
-import argparse
 import os
-
 
 from strategy_factory import strategy_factory
 from types_internal import StrategyType
@@ -18,14 +22,13 @@ def entrypoint(
   currency_symbol: str,
   client: Client,
 ):
-    if not os.path.isfile(f"{currency_symbol}-stream.sqlite"):
+    file_path = f"db_sqlite/{currency_symbol}-stream.sqlite"
+    if not os.path.isfile(file_path):
         raise FileNotFoundError("No such database, you must run worker, read_client.py")
-    engine = sqlalchemy.create_engine(f"sqlite:///{currency_symbol}-stream.sqlite")
+    engine = sqlalchemy.create_engine(f"sqlite:///{file_path}")
     strategy_factory(strategy_type, currency_symbol, client, engine)
 
 if __name__ == "__main__":
-    # TODO use argparse or some library like click
-
     if len(argv) != 4:
         raise Exception("Must be 3 arguments (operation --real/--fale) (strategy <name>), currency symbol <name>")
     if argv[1] == "--real":
