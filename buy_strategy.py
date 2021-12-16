@@ -45,6 +45,7 @@ def strategy(
                 write_order.write(order)
                 open_position = True
                 last_row = df.iloc[-1]
+                last_row["side"] = "BUY"
                 logging.info("--------symobl--------------")
                 logging.info(currency_symbol)
                 logging.info(f"Buy crypto {order}")
@@ -62,6 +63,7 @@ def strategy(
                     order = client.create_order(symbol=currency_symbol, side="SELL", type="MARKET", quantity=qty)
                     write_order.write(order)
                     last_row = df.iloc[-1]
+                    last_row["side"] = "SELL"
                     logging.info(f"Sell crypto {order}")
                     logging.info(f"Last row sell: \n{last_row}")
                     write_df_to_sql.write(last_row)

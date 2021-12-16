@@ -35,7 +35,8 @@ class WriteDf:
         dict_data = data.to_dict()
         self.engine.execute(f"""
         create table if not exists {self.table_name}(
-            id int primary key asc,
+            id integer primary key autoincrement,
+            side TEXT,
             symbol TEXT,
             time TIMESTAMP,
             price REAL
@@ -43,9 +44,10 @@ class WriteDf:
         """)
 
         self.engine.execute(f"""
-        INSERT INTO {self.table_name} (symbol, time, price)
+        INSERT INTO {self.table_name} (side, symbol, time, price)
         VALUES
         (
+            "{dict_data["side"]}",
             "{dict_data["symbol"]}",
             "{dict_data["time"]}",
             {dict_data["price"]}
