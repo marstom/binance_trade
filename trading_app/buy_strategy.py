@@ -4,17 +4,10 @@ https://www.youtube.com/watch?v=rc_Y6rdBqXM&list=PL9ATnizYJ7f8_opOpLnekEZNsNVUVb
 """
 
 from typing import Callable
-import sqlalchemy
 import pandas
-import secret
 from binance.client import Client
-import config
 import logging
-from sys import argv
-
-from tests.fake_binance_client import FakeClient
-from db_schemas.buy_info_db import WriteDf, WriteOrder
-from db_schemas.writeable import Writeable
+from trading_app.db_schemas.writeable import Writeable
 
 logging.basicConfig(format="%(levelname)s:%(message)s", level=logging.DEBUG)
 
@@ -70,24 +63,3 @@ def strategy(
                     break
 
 
-if __name__ == "__main__":
-    if len(argv) != 2:
-        raise Exception("Must be: --real or --fake")
-    if argv[1] == "--real":
-        client = Client(secret.api_key, secret.api_secret)
-    elif argv[1] == "--fake":
-        client = FakeClient()
-    else:
-        raise Exception("Wrong client type, must be: --real or --fake")
-    engine = sqlalchemy.create_engine(f"sqlite:///{config.pair}-stream.sqlite")
-    strategy(
-        entry=0.001,
-        loopback=60,
-        qty=0.001,
-        currency_symbol=config.pair,
-        write_order=WriteOrder(engine, "MY_ORDER"),
-        write_df_to_sql=WriteDf(engine, "BUY_SELL"),
-        open_position=False,
-        client=client,
-        read_from_sql=lambda: pandas.read_sql(config.pair, engine),
-    )

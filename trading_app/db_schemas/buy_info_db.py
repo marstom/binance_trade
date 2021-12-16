@@ -1,4 +1,3 @@
-from .writeable import Writeable
 import sqlalchemy
 import json
 

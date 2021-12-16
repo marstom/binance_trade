@@ -5,10 +5,16 @@ import sqlalchemy
 import pandas
 
 import matplotlib.pyplot
-import config
+from sys import argv
 
-engine = sqlalchemy.create_engine(f"sqlite:///db_sqlite/{config.pair}-stream.sqlite")
+if __name__ == "__main__":
+    if len(argv) != 2:
+        raise Exception("Must be 1 argument: currency symbol <name>")
 
-df = pandas.read_sql(config.pair, engine)
-df.price.plot()
-matplotlib.pyplot.show()
+    _, currency_symbol = argv
+
+    engine = sqlalchemy.create_engine(f"sqlite:///db_sqlite/{currency_symbol}-stream.sqlite")
+
+    df = pandas.read_sql(currency_symbol, engine)
+    df.price.plot()
+    matplotlib.pyplot.show()

@@ -9,12 +9,12 @@ from binance.client import Client
 from sys import argv
 import os
 
-from strategy_factory import strategy_factory
-from types_internal import StrategyType
-from tests.fake_binance_client import FakeClient
+from trading_app.strategy_factory import strategy_factory
+from trading_app.types_internal import StrategyType
+from trading_app.tests.fake_binance_client import FakeClient
 
 try:
-    import secret
+    from trading_app import secret
 except ImportError:
     raise ModuleNotFoundError("Please create module secrety.py which contains 2 variables: api_key, api_secret")
 

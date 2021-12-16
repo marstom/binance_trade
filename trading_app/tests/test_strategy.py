@@ -1,7 +1,6 @@
 import sqlalchemy
-from unittest import mock
-from buy_strategy import strategy, WriteOrder, WriteDf
-import buy_strategy
+from trading_app.buy_strategy import strategy
+from trading_app.db_schemas.buy_info_db import WriteOrder, WriteDf
 from .fake_binance_client import FakeClient
 
 import pandas
@@ -20,23 +19,19 @@ import pandas
 
 
 def df_generator():
-    engine = sqlalchemy.create_engine(f"sqlite:///tests/data/buy_historical_data.sqlite")
+    engine = sqlalchemy.create_engine(f"sqlite:///trading_app/tests/data/buy_historical_data.sqlite")
     df = pandas.read_sql("BTCUSDT", engine)
     for i in range(10, df.size):
         yield df.iloc[:i]
 
 
 def test_df_generator():
-    print()
     df_generator()
 
 
-# TODO strategy not testable
 def test_strategy():
     client = FakeClient()
-    engine = sqlalchemy.create_engine(f"sqlite:///tests/data/buy_historical_data.sqlite")  # read only
-    engine_memory = sqlalchemy.create_engine(f"sqlite:///:memory:")
-    engine_test_output = sqlalchemy.create_engine(f"sqlite:///tests/_temp.sqlite")
+    engine_test_output = sqlalchemy.create_engine(f"sqlite:///db_sqlite/_temp.sqlite")
     df_gen = df_generator()
     read_from_sql = lambda: next(df_gen)
 

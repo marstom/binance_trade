@@ -1,6 +1,6 @@
 from typing import Literal
 
-from enums import SideEnum
+from trading_app.enums import SideEnum
 
 
 class FakeClient:

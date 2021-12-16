@@ -10,8 +10,12 @@ from binance.client import Client
 from binance.exceptions import BinanceAPIException
 from binance import BinanceSocketManager
 
-import secret
-from types_internal import CurrencySymbol
+from trading_app.types_internal import CurrencySymbol
+
+try:
+    from trading_app import secret
+except ImportError:
+    raise ModuleNotFoundError("Please create module secrety.py which contains 2 variables: api_key, api_secret")
 
 
 class TradeSocketColumns:

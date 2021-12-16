@@ -1,6 +1,6 @@
 # Setup
 
-Create secret.py
+Create ./trading_app/secret.py
 
 ```
 api_key = "xxx"

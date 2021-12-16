@@ -2,9 +2,9 @@ import sqlalchemy
 import pandas
 from binance.client import Client
 
-from buy_strategy import strategy as trend_following_strategy
-from db_schemas.buy_info_db import WriteDf, WriteOrder
-from types_internal import CurrencySymbol, StrategyType
+from trading_app.buy_strategy import strategy as trend_following_strategy
+from trading_app.db_schemas.buy_info_db import WriteDf, WriteOrder
+from trading_app.types_internal import CurrencySymbol, StrategyType
 
 
 class InvalidCurrencySymbol(Exception):
