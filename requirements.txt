@@ -3,6 +3,9 @@ sqlalchemy
 pandas
 matplotlib
 
+typing-extensions
+
+#dev
 ipython
 ipdb
 pytest

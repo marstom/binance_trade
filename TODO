@@ -1,0 +1,5 @@
+[ ] Create makefile
+[ ] Create frontend for running strategies
+[ ] Change db to postgresql
+[ ] Support other coins (different buy parameters for other coins)
+[ ] layer that connects read_client and buy_strategy and common symbol
