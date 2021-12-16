@@ -12,21 +12,24 @@ import os
 from strategy_factory import strategy_factory
 from types_internal import StrategyType
 from tests.fake_binance_client import FakeClient
+
 try:
     import secret
 except ImportError:
     raise ModuleNotFoundError("Please create module secrety.py which contains 2 variables: api_key, api_secret")
 
+
 def entrypoint(
-  strategy_type: StrategyType,
-  currency_symbol: str,
-  client: Client,
+    strategy_type: StrategyType,
+    currency_symbol: str,
+    client: Client,
 ):
     file_path = f"db_sqlite/{currency_symbol}-stream.sqlite"
     if not os.path.isfile(file_path):
         raise FileNotFoundError("No such database, you must run worker, read_client.py")
     engine = sqlalchemy.create_engine(f"sqlite:///{file_path}")
     strategy_factory(strategy_type, currency_symbol, client, engine)
+
 
 if __name__ == "__main__":
     if len(argv) != 4:

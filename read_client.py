@@ -13,6 +13,7 @@ from binance import BinanceSocketManager
 import secret
 from types_internal import CurrencySymbol
 
+
 class TradeSocketColumns:
     SYMBOL = "s"
     TIMESTAMP = "E"

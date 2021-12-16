@@ -16,7 +16,7 @@ from tests.fake_binance_client import FakeClient
 from db_schemas.buy_info_db import WriteDf, WriteOrder
 from db_schemas.writeable import Writeable
 
-logging.basicConfig(format='%(levelname)s:%(message)s', level=logging.DEBUG)
+logging.basicConfig(format="%(levelname)s:%(message)s", level=logging.DEBUG)
 
 
 """
