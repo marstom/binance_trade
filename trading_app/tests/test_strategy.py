@@ -1,7 +1,7 @@
 import pandas
 import sqlalchemy
 
-from trading_app.buy_strategy import strategy
+from trading_app.strategies.trend_following_strategy import strategy
 from trading_app.db_schemas.buy_info_db import WriteDf, WriteOrder
 
 from .fake_binance_client import FakeClient

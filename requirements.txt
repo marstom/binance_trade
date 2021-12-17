@@ -11,3 +11,7 @@ ipdb
 pytest
 pylint
 isort
+
+
+#notebooks
+jupyter
