@@ -1,7 +1,7 @@
-import sqlalchemy
 import pandas
-from binance.client import Client
+import sqlalchemy
 
+from binance.client import Client
 from trading_app.buy_strategy import strategy as trend_following_strategy
 from trading_app.db_schemas.buy_info_db import WriteDf, WriteOrder
 from trading_app.types_internal import CurrencySymbol, StrategyType

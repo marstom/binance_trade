@@ -1,5 +1,6 @@
-import sqlalchemy
 import json
+
+import sqlalchemy
 
 
 class WriteOrder:

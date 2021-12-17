@@ -4,14 +4,15 @@ console application
 
 python buy_crypto.py --fake TrendFollowing BTCUSDT
 """
-import sqlalchemy
-from binance.client import Client
-from sys import argv
 import os
+from sys import argv
 
+import sqlalchemy
+
+from binance.client import Client
 from trading_app.strategy_factory import strategy_factory
-from trading_app.types_internal import StrategyType
 from trading_app.tests.fake_binance_client import FakeClient
+from trading_app.types_internal import StrategyType
 
 try:
     from trading_app import secret

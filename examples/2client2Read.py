@@ -1,11 +1,11 @@
-import pandas
-
-import sqlalchemy
-from binance.client import Client
-from binance import BinanceSocketManager
-
-import secret
 import asyncio
+
+import pandas
+import secret
+import sqlalchemy
+
+from binance import BinanceSocketManager
+from binance.client import Client
 
 client = Client(secret.api_key, secret.api_secret)
 

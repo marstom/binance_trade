@@ -1,9 +1,10 @@
-import sqlalchemy
-from trading_app.buy_strategy import strategy
-from trading_app.db_schemas.buy_info_db import WriteOrder, WriteDf
-from .fake_binance_client import FakeClient
-
 import pandas
+import sqlalchemy
+
+from trading_app.buy_strategy import strategy
+from trading_app.db_schemas.buy_info_db import WriteDf, WriteOrder
+
+from .fake_binance_client import FakeClient
 
 """
 42002 rows x 3 columns]

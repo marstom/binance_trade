@@ -1,11 +1,11 @@
 """
 Script for plotting database
 """
-import sqlalchemy
-import pandas
+from sys import argv
 
 import matplotlib.pyplot
-from sys import argv
+import pandas
+import sqlalchemy
 
 if __name__ == "__main__":
     if len(argv) != 2:

@@ -10,3 +10,4 @@ ipython
 ipdb
 pytest
 pylint
+isort

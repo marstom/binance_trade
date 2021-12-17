@@ -1,15 +1,16 @@
 """
 Script for readin live data and saving to db
 """
-from typing import Dict
-import pandas
 import asyncio
 from sys import argv
+from typing import Dict
+
+import pandas
 import sqlalchemy
+
+from binance import BinanceSocketManager
 from binance.client import Client
 from binance.exceptions import BinanceAPIException
-from binance import BinanceSocketManager
-
 from trading_app.types_internal import CurrencySymbol
 
 try:

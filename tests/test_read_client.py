@@ -1,5 +1,6 @@
-from read_client import create_frame
 import sqlalchemy
+
+from read_client import create_frame
 
 
 def test_create_frame(mocky_trade_socket_data):

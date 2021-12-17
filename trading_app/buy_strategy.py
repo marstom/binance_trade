@@ -3,10 +3,12 @@
 https://www.youtube.com/watch?v=rc_Y6rdBqXM&list=PL9ATnizYJ7f8_opOpLnekEZNsNVUVbCZN&index=2
 """
 
-from typing import Callable
-import pandas
-from binance.client import Client
 import logging
+from typing import Callable
+
+import pandas
+
+from binance.client import Client
 from trading_app.db_schemas.writeable import Writeable
 
 logging.basicConfig(format="%(levelname)s:%(message)s", level=logging.DEBUG)
@@ -37,7 +39,7 @@ def strategy(
                 order = client.create_order(symbol=currency_symbol, side="BUY", type="MARKET", quantity=qty)
                 write_order.write(order)
                 open_position = True
-                last_row = df.iloc[-1]
+                last_row = df.iloc[-1].copy(deep=True)
                 last_row["side"] = "BUY"
                 logging.info("--------symobl--------------")
                 logging.info(currency_symbol)
@@ -55,11 +57,9 @@ def strategy(
                 if last_entry > 0.0015 or last_entry < -0.0015:
                     order = client.create_order(symbol=currency_symbol, side="SELL", type="MARKET", quantity=qty)
                     write_order.write(order)
-                    last_row = df.iloc[-1]
+                    last_row = df.iloc[-1].copy(deep=True)
                     last_row["side"] = "SELL"
                     logging.info(f"Sell crypto {order}")
                     logging.info(f"Last row sell: \n{last_row}")
                     write_df_to_sql.write(last_row)
                     break
-
-
