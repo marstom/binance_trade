@@ -5,8 +5,9 @@ from trading_app.enums import SideEnum
 
 
 class FakeClient:
-    buy_time = lambda: int(datetime.timestamp(datetime.now()) * 1000)
-    sell_time = lambda: int(datetime.timestamp(datetime.now()) * 1000)
+    def __init__(self) -> None:
+        self.buy_time = lambda: int(datetime.timestamp(datetime.now()) * 1000)
+        self.sell_time = lambda: int(datetime.timestamp(datetime.now()) * 1000)
 
     def create_order(self, symbol: str, side: Literal["BUY", "SELL"], type: Literal["MARKET"], quantity: float):
         if side == SideEnum.BUY.name:
