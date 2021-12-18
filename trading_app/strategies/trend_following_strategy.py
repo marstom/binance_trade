@@ -4,29 +4,16 @@ https://www.youtube.com/watch?v=rc_Y6rdBqXM&list=PL9ATnizYJ7f8_opOpLnekEZNsNVUVb
 """
 
 import logging
-from typing import Callable, NewType, Union
+from typing import Callable, Union
 
 import pandas
 from pandas import DataFrame
-from typing_extensions import Protocol
 
 from binance.client import Client
 from trading_app.db_schemas.writeable import Writeable
+from trading_app.strategies.trading_strategy import Order
 
 logging.basicConfig(format="%(levelname)s:%(message)s", level=logging.DEBUG)
-
-Order = NewType("Order", dict)
-
-
-class TradingStrategy(Protocol):
-    def run(self):
-        ...
-
-    def buy_strategy(self, data_frame: DataFrame) -> Union[Order, None]:
-        ...
-
-    def sell_strategy(self, data_frame: DataFrame, order: Order) -> Union[Order, None]:
-        ...
 
 
 """

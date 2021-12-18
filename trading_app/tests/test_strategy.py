@@ -8,7 +8,7 @@ from .fake_binance_client import FakeClient
 
 """
 42002 rows x 3 columns]
-....df         symbol                    time     price
+df      symbol         time              price
 0      BTCUSDT 2021-11-29 13:43:52.611  57474.41
 1      BTCUSDT 2021-11-29 13:43:53.904  57486.81
 2      BTCUSDT 2021-11-29 13:43:55.247  57486.82
@@ -48,3 +48,12 @@ def test_strategy():
         read_from_sql=read_from_sql,
     )
     strategy.run()
+
+
+# TODO detailed tests buy sell
+def test_buy_when_above_entry():
+    ...
+
+
+def test_sell_after_period_of_time_when_is_profitable():
+    ...
