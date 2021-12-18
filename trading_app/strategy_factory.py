@@ -2,8 +2,9 @@ import pandas
 import sqlalchemy
 
 from binance.client import Client
-from trading_app.strategies.trend_following_strategy import strategy as trend_following_strategy
 from trading_app.db_schemas.buy_info_db import WriteDf, WriteOrder
+from trading_app.strategies.trend_following_strategy import \
+    Strategy as TrendFollowingStrategy
 from trading_app.types_internal import CurrencySymbol, StrategyType
 
 
@@ -15,7 +16,7 @@ def strategy_factory(
     strategy_type: StrategyType, currency_symbol: str, client: Client, engine: sqlalchemy.engine.Engine
 ):
     if strategy_type == "TrendFollowing":
-        return trend_following_strategy(**currency_config_factory(currency_symbol, strategy_type, client, engine))
+        return TrendFollowingStrategy(**currency_config_factory(currency_symbol, strategy_type, client, engine)).run()
 
 
 def currency_config_factory(

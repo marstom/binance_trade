@@ -1,8 +1,8 @@
 import pandas
 import sqlalchemy
 
-from trading_app.strategies.trend_following_strategy import strategy
 from trading_app.db_schemas.buy_info_db import WriteDf, WriteOrder
+from trading_app.strategies.trend_following_strategy import Strategy
 
 from .fake_binance_client import FakeClient
 
@@ -36,7 +36,7 @@ def test_strategy():
     df_gen = df_generator()
     read_from_sql = lambda: next(df_gen)
 
-    strategy(
+    strategy = Strategy(
         entry=0.001,
         loopback=60,
         qty=0.001,
@@ -47,3 +47,4 @@ def test_strategy():
         client=client,
         read_from_sql=read_from_sql,
     )
+    strategy.run()

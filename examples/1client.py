@@ -1,7 +1,8 @@
 import asyncio
 import json
 
-from binance import AsyncClient, BinanceSocketManager, Client, DepthCacheManager, OptionsDepthCacheManager
+from binance import (AsyncClient, BinanceSocketManager, Client,
+                     DepthCacheManager, OptionsDepthCacheManager)
 
 
 async def main():

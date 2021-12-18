@@ -1,3 +1,4 @@
+from datetime import datetime
 from typing import Literal
 
 from trading_app.enums import SideEnum
@@ -11,7 +12,7 @@ class FakeClient:
                 "orderId": 0,
                 "orderListId": -1,
                 "clientOrderId": "fake_gfbT4sjFjR8RpKQoEMzovz",
-                "transactTime": 1638213340747,
+                "transactTime": int(datetime.timestamp(datetime.now()) * 1000),
                 "price": "0.00000000",
                 "origQty": "0.00100000 ",
                 "executedQty": "0.00100000",
@@ -36,7 +37,7 @@ class FakeClient:
                 "orderId": 0,
                 "orderListId": -1,
                 "clientOrderId": "fake_gfbT4sjFjR8RpKQoEMzovz",
-                "transactTime": 1638213340747,
+                "transactTime": int(datetime.timestamp(datetime.now()) * 1000),
                 "price": "0.00000000",
                 "origQty": "0.0010000 0",
                 "executedQty": "0.00100000",
