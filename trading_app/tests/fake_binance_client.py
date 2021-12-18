@@ -5,6 +5,9 @@ from trading_app.enums import SideEnum
 
 
 class FakeClient:
+    buy_time = lambda: int(datetime.timestamp(datetime.now()) * 1000)
+    sell_time = lambda: int(datetime.timestamp(datetime.now()) * 1000)
+
     def create_order(self, symbol: str, side: Literal["BUY", "SELL"], type: Literal["MARKET"], quantity: float):
         if side == SideEnum.BUY.name:
             return {
@@ -12,7 +15,7 @@ class FakeClient:
                 "orderId": 0,
                 "orderListId": -1,
                 "clientOrderId": "fake_gfbT4sjFjR8RpKQoEMzovz",
-                "transactTime": int(datetime.timestamp(datetime.now()) * 1000),
+                "transactTime": self.buy_time(),
                 "price": "0.00000000",
                 "origQty": "0.00100000 ",
                 "executedQty": "0.00100000",
@@ -37,7 +40,7 @@ class FakeClient:
                 "orderId": 0,
                 "orderListId": -1,
                 "clientOrderId": "fake_gfbT4sjFjR8RpKQoEMzovz",
-                "transactTime": int(datetime.timestamp(datetime.now()) * 1000),
+                "transactTime": self.sell_time(),
                 "price": "0.00000000",
                 "origQty": "0.0010000 0",
                 "executedQty": "0.00100000",

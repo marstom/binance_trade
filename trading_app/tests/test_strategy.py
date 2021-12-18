@@ -32,6 +32,8 @@ def test_df_generator():
 
 def test_strategy():
     client = FakeClient()
+    client.buy_time = lambda: 1638213340747
+    client.sell_time = lambda: 1638213340747
     engine_test_output = sqlalchemy.create_engine(f"sqlite:///db_sqlite/_temp.sqlite")
     df_gen = df_generator()
     read_from_sql = lambda: next(df_gen)
