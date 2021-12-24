@@ -35,14 +35,14 @@ def entrypoint(
 if __name__ == "__main__":
     if len(argv) != 4:
         raise Exception("Must be 3 arguments (operation --real/--fale) (strategy <name>), currency symbol <name>")
-    if argv[1] == "--real":
+    _, mode, strategy_name, currency_symbol = argv
+    if mode == "--real":
         client = Client(secret.api_key, secret.api_secret)
-    elif argv[1] == "--fake":
+    elif mode == "--fake":
         client = FakeClient()
     else:
         raise Exception("Wrong client type, must be: --real or --fake")
 
-    _, _, strategy_name, currency_symbol = argv
 
     # entrypoint("TrendFollowing", "BTCUSDT", client)
     entrypoint(strategy_name, currency_symbol, client)
