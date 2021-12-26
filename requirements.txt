@@ -2,7 +2,7 @@ python-binance
 sqlalchemy
 pandas
 matplotlib
-
+pymongo
 typing-extensions
 
 #dev
