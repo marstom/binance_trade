@@ -28,7 +28,7 @@ def currency_config_factory(
 ) -> Dict:
     if currency_symbol == "BTCUSDT" and strategy_type == "TrendFollowing":
         return {
-            "entry": 0.0001,
+            "entry": 0.001,
             "loopback": 60,
             "qty": 0.001,
             "currency_symbol": "BTCUSDT",
