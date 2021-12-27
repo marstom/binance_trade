@@ -8,6 +8,7 @@ import os
 from sys import argv
 
 import sqlalchemy
+from pymongo import MongoClient
 
 from binance.client import Client
 from trading_app.strategy_factory import strategy_factory
@@ -28,8 +29,10 @@ def entrypoint(
     file_path = f"db_sqlite/{currency_symbol}-stream.sqlite"
     if not os.path.isfile(file_path):
         raise FileNotFoundError("No such database, you must run worker, read_client.py")
-    engine = sqlalchemy.create_engine(f"sqlite:///{file_path}")
-    strategy_factory(strategy_type, currency_symbol, client, engine)
+    # engine = sqlalchemy.create_engine(f"sqlite:///{file_path}")
+    mongo_db_client = MongoClient(f"mongodb://{secret.mongo_username}:{secret.mongo_password}@localhost:27017/")
+    db = mongo_db_client["live-prices"]
+    strategy_factory(strategy_type, currency_symbol, client, db)
 
 
 if __name__ == "__main__":
@@ -42,7 +45,6 @@ if __name__ == "__main__":
         client = FakeClient()
     else:
         raise Exception("Wrong client type, must be: --real or --fake")
-
 
     # entrypoint("TrendFollowing", "BTCUSDT", client)
     entrypoint(strategy_name, currency_symbol, client)

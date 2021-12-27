@@ -58,6 +58,9 @@ class Strategy:
 
     def buy_strategy(self, data_frame: DataFrame) -> Union[Order, None]:
         loopback_period = data_frame.iloc[-self.loopback :]
+        # print('----------------')
+        # print(data_frame)
+
         cummulative_return = (loopback_period.price.pct_change() + 1).cumprod() - 1
         if not self.open_position:
             if cummulative_return[cummulative_return.last_valid_index()] > self.entry:
