@@ -14,12 +14,12 @@ if __name__ == "__main__":
 
     _, currency_symbol = argv
 
-    # engine = sqlalchemy.create_engine(f"sqlite:///db_sqlite/{currency_symbol}-stream.sqlite")
-    client = MongoClient("mongodb://root:example@localhost:27017/")
-    db = client["live-prices"]
-    values = db[currency_symbol]
-    df = pandas.DataFrame(values.find())
+    engine = sqlalchemy.create_engine(f"sqlite:///db_sqlite/{currency_symbol}-stream.sqlite")
+    # client = MongoClient("mongodb://root:example@localhost:27017/")
+    # db = client["live-prices"]
+    # values = db[currency_symbol]
+    # df = pandas.DataFrame(values.find())
 
-    # df = pandas.read_sql(currency_symbol, engine)
+    df = pandas.read_sql(currency_symbol, engine)
     df.price.plot()
     matplotlib.pyplot.show()
