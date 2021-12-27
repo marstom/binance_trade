@@ -79,6 +79,7 @@ class Strategy:
                 return order
         return None
 
+    # TODO broken sell strategy with mongodb - create tests for it !!!!
     def sell_strategy(self, data_frame: DataFrame, order: Order) -> Union[Order, None]:
         # TODO transactTime in fake mode is fixed, therefore it will be false result
         since_buy = data_frame.loc[data_frame.time > pandas.to_datetime(order["transactTime"], unit="ms")]
