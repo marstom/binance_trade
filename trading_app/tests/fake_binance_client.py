@@ -1,9 +1,14 @@
+from datetime import datetime
 from typing import Literal
 
-from enums import SideEnum
+from trading_app.enums import SideEnum
 
 
 class FakeClient:
+    def __init__(self) -> None:
+        self.buy_time = lambda: int(datetime.timestamp(datetime.now()) * 1000)
+        self.sell_time = lambda: int(datetime.timestamp(datetime.now()) * 1000)
+
     def create_order(self, symbol: str, side: Literal["BUY", "SELL"], type: Literal["MARKET"], quantity: float):
         if side == SideEnum.BUY.name:
             return {
@@ -11,7 +16,7 @@ class FakeClient:
                 "orderId": 0,
                 "orderListId": -1,
                 "clientOrderId": "fake_gfbT4sjFjR8RpKQoEMzovz",
-                "transactTime": 1638213340747,
+                "transactTime": self.buy_time(),
                 "price": "0.00000000",
                 "origQty": "0.00100000 ",
                 "executedQty": "0.00100000",
@@ -36,7 +41,7 @@ class FakeClient:
                 "orderId": 0,
                 "orderListId": -1,
                 "clientOrderId": "fake_gfbT4sjFjR8RpKQoEMzovz",
-                "transactTime": 1638213340747,
+                "transactTime": self.sell_time(),
                 "price": "0.00000000",
                 "origQty": "0.0010000 0",
                 "executedQty": "0.00100000",

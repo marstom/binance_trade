@@ -1,17 +1,23 @@
 """
 Script for readin live data and saving to db
 """
-from typing import Dict
-import pandas
 import asyncio
 from sys import argv
+from typing import Dict
+
+import pandas
 import sqlalchemy
+from pymongo import MongoClient
+
+from binance import BinanceSocketManager
 from binance.client import Client
 from binance.exceptions import BinanceAPIException
-from binance import BinanceSocketManager
+from trading_app.types_internal import CurrencySymbol
 
-import secret
-from types_internal import CurrencySymbol
+try:
+    from trading_app import secret
+except ImportError:
+    raise ModuleNotFoundError("Please create module secrety.py which contains 2 variables: api_key, api_secret")
 
 
 class TradeSocketColumns:
@@ -36,6 +42,8 @@ async def main(currency_symbol: CurrencySymbol):
 
     socket = bsm.trade_socket(currency_symbol)
     engine = sqlalchemy.create_engine(f"sqlite:///db_sqlite/{currency_symbol}-stream.sqlite")
+    # client = MongoClient("mongodb://root:example@localhost:27017/")
+    # db = client["live-prices"]
 
     while True:
         await socket.__aenter__()
@@ -43,12 +51,16 @@ async def main(currency_symbol: CurrencySymbol):
             msg = await socket.recv()
             frame = create_frame(msg)
             # sql
+            print(msg)
+            # print(frame.to_dict('list'))
+            # data_for_db = {"symbol": frame.symbol[0], "time": frame.time[0], "price": frame.price[0]}
+            # print(data_for_db)
+            # db[currency_symbol].insert_one(data_for_db)
             frame.to_sql(currency_symbol, engine, if_exists="append", index=False)
-            print(frame)
         except BinanceAPIException as e:
             print(f"Failed to read data from API{e}.")
         except Exception as e:
-            print("Other exception occurs")
+            print("Other exception occurs", e)
         finally:
             await socket.__aexit__(None, None, None)
 

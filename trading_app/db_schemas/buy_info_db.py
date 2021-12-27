@@ -1,6 +1,6 @@
-from .writeable import Writeable
-import sqlalchemy
 import json
+
+import sqlalchemy
 
 
 class WriteOrder:

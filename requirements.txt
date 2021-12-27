@@ -2,7 +2,7 @@ python-binance
 sqlalchemy
 pandas
 matplotlib
-
+pymongo
 typing-extensions
 
 #dev
@@ -10,3 +10,8 @@ ipython
 ipdb
 pytest
 pylint
+isort
+
+
+#notebooks
+jupyter

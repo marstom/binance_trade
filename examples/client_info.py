@@ -1,8 +1,9 @@
 from typing import Type
 
-import secret
-from binance.client import Client
 import config
+import secret
+
+from binance.client import Client
 
 client = Client(secret.api_key, secret.api_secret)
 
