@@ -58,6 +58,9 @@ class Strategy:
 
     def buy_strategy(self, data_frame: DataFrame) -> Union[Order, None]:
         loopback_period = data_frame.iloc[-self.loopback :]
+        # print('----------------')
+        # print(data_frame)
+
         cummulative_return = (loopback_period.price.pct_change() + 1).cumprod() - 1
         if not self.open_position:
             if cummulative_return[cummulative_return.last_valid_index()] > self.entry:
@@ -76,6 +79,7 @@ class Strategy:
                 return order
         return None
 
+    # TODO broken sell strategy with mongodb - create tests for it !!!!
     def sell_strategy(self, data_frame: DataFrame, order: Order) -> Union[Order, None]:
         # TODO transactTime in fake mode is fixed, therefore it will be false result
         since_buy = data_frame.loc[data_frame.time > pandas.to_datetime(order["transactTime"], unit="ms")]

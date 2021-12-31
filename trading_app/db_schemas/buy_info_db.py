@@ -1,3 +1,7 @@
+"""
+SQL database version
+"""
+
 import json
 
 import sqlalchemy
