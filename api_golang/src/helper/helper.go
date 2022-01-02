@@ -3,7 +3,7 @@ package helper
 import (
 	"context"
 	"encoding/json"
-	"fmt"
+	// "fmt"
 	"log"
 	"net/http"
 	"os"
@@ -13,24 +13,53 @@ import (
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
-// ConnectDB : This is helper function to connect mongoDB
-// If you want to export your function. You must to start upper case function name. Otherwise you won't see your function when you import that on other class.
-func ConnectDB() *mongo.Collection {
-	config := GetConfiguration()
-	// Set client options
+type Connection struct {
+	Client              *mongo.Client
+	// Port             string
+	// ConnectionString string
+}
+
+
+
+// Configuration model
+type Configuration struct {
+	Port             string
+	ConnectionString string
+}
+
+func (c Connection) Init() Connection{
+	c.GetClient()
+	return c
+}
+
+func (c *Connection) GetClient() {
+	config := c.GetConfiguration()
 	clientOptions := options.Client().ApplyURI(config.ConnectionString)
-
-	// Connect to MongoDB
-	client, err := mongo.Connect(context.TODO(), clientOptions)
-
+	client , err := mongo.Connect(context.TODO(), clientOptions)
 	if err != nil {
 		log.Fatal(err)
 	}
+	c.Client = client
+}
 
-	fmt.Println("Connected to MongoDB!")
+// GetConfiguration method basically populate configuration information from .env and return Configuration model
+func (c Connection) GetConfiguration() Configuration {
+	err := godotenv.Load("./.env")
 
-	collection := client.Database("live-prices").Collection("BTCUSDT")
+	if err != nil {
+		log.Fatalf("Error loading .env file")
+	}
 
+	configuration := Configuration{
+		os.Getenv("PORT"),
+		os.Getenv("CONNECTION_STRING"),
+	}
+
+	return configuration
+}
+
+func (c Connection) GetCollection() *mongo.Collection {
+	collection := c.Client.Database("live-prices").Collection("BTCUSDT")
 	return collection
 }
 
@@ -56,24 +85,3 @@ func GetError(err error, w http.ResponseWriter) {
 	w.Write(message)
 }
 
-// Configuration model
-type Configuration struct {
-	Port             string
-	ConnectionString string
-}
-
-// GetConfiguration method basically populate configuration information from .env and return Configuration model
-func GetConfiguration() Configuration {
-	err := godotenv.Load("./.env")
-
-	if err != nil {
-		log.Fatalf("Error loading .env file")
-	}
-
-	configuration := Configuration{
-		os.Getenv("PORT"),
-		os.Getenv("CONNECTION_STRING"),
-	}
-
-	return configuration
-}

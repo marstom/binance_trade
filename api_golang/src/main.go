@@ -10,13 +10,18 @@ import (
 	"go.mongodb.org/mongo-driver/bson"
 	"marstom/src/helper"
 	"marstom/src/models"
+	// "go.mongodb.org/mongo-driver/mongo/options"
 
 )
 
-//Connection mongoDB with helper class
-var collection = helper.ConnectDB()
+var connenction = helper.Connection{}.Init()
+var collection = connenction.GetCollection()
 
 func main() {
+	//Connection mongoDB with helper class
+	// var cleint = options.Client()
+
+
 	//Init Router
 	r := mux.NewRouter()
 
@@ -33,6 +38,8 @@ func main() {
 }
 
 func getBooks(w http.ResponseWriter, r *http.Request) {
+
+
 	w.Header().Set("Content-Type", "application/json")
 
 	// we created Book array
