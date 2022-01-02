@@ -27,8 +27,8 @@ func (c MongoClient) Init() MongoClient{
 	return c
 }
 
-func (c MongoClient) GetCollection() *mongo.Collection {
-	collection := c.Client.Database("live-prices").Collection("BTCUSDT")
+func (c MongoClient) GetCollection(symbol string) *mongo.Collection {
+	collection := c.Client.Database("live-prices").Collection(symbol)
 	return collection
 }
 

@@ -1,3 +1,10 @@
+/*
+Example:
+
+http://localhost:8000/api/currency/BTCUSDT
+
+
+*/
 package main
 
 import (
@@ -15,35 +22,29 @@ import (
 )
 
 var connenction = mongo_client.MongoClient{}.Init()
-var collection = connenction.GetCollection()
+
 
 func main() {
-	//Connection mongoDB with helper class
-	// var cleint = options.Client()
-
-
 	//Init Router
 	r := mux.NewRouter()
 
   	// // arrange our route
-	r.HandleFunc("/api/books", getBooks).Methods("GET")
-	// r.HandleFunc("/api/books/{id}", getBook).Methods("GET")
-	// r.HandleFunc("/api/books", createBook).Methods("POST")
-	// r.HandleFunc("/api/books/{id}", updateBook).Methods("PUT")
-	// r.HandleFunc("/api/books/{id}", deleteBook).Methods("DELETE")
+	r.HandleFunc("/api/currency/{symbol}", getSymbolPrices).Methods("GET")
 
   	// set our port address
 	log.Fatal(http.ListenAndServe(":8000", r))
 
 }
 
-func getBooks(w http.ResponseWriter, r *http.Request) {
+func getSymbolPrices(w http.ResponseWriter, r *http.Request) {
 
+	vars := mux.Vars(r)
+
+	collection := connenction.GetCollection(vars["symbol"])
 
 	w.Header().Set("Content-Type", "application/json")
 
-	// we created Book array
-	var books []models.CurrencyPrice
+	var currencyPrices []models.CurrencyPrice
 
 	// bson.M{},  we passed empty filter. So we want to get all data.
 	cur, err := collection.Find(context.TODO(), bson.M{})
@@ -69,12 +70,12 @@ func getBooks(w http.ResponseWriter, r *http.Request) {
 		}
 
 		// add item our array
-		books = append(books, currencyPrice)
+		currencyPrices = append(currencyPrices, currencyPrice)
 	}
 
 	if err := cur.Err(); err != nil {
 		log.Fatal(err)
 	}
 
-	json.NewEncoder(w).Encode(books) // encode similar to serialize process.
+	json.NewEncoder(w).Encode(currencyPrices) // encode similar to serialize process.
 }
