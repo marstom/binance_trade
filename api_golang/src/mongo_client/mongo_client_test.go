@@ -1,4 +1,4 @@
-package helper
+package mongo_client
 
 import (
 	"context"
@@ -10,11 +10,11 @@ import (
 )
 
 func TestFirmtElement(t *testing.T){
-	config := Connection{}.Init()
+	config := MongoClient{}.Init()
 	collection := config.GetCollection()
 	cur, _ := collection.Find(context.TODO(), bson.M{})
 	cur.Next(context.TODO())
-	var book models.Book
+	var book models.CurrencyPrice
 
 	cur.Decode(&book)
 	fmt.Println(book)

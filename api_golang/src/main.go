@@ -8,13 +8,13 @@ import (
 
 	"github.com/gorilla/mux"
 	"go.mongodb.org/mongo-driver/bson"
-	"marstom/src/helper"
+	"marstom/src/mongo_client"
 	"marstom/src/models"
 	// "go.mongodb.org/mongo-driver/mongo/options"
 
 )
 
-var connenction = helper.Connection{}.Init()
+var connenction = mongo_client.MongoClient{}.Init()
 var collection = connenction.GetCollection()
 
 func main() {
@@ -43,13 +43,13 @@ func getBooks(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 
 	// we created Book array
-	var books []models.Book
+	var books []models.CurrencyPrice
 
 	// bson.M{},  we passed empty filter. So we want to get all data.
 	cur, err := collection.Find(context.TODO(), bson.M{})
 
 	if err != nil {
-		helper.GetError(err, w)
+		mongo_client.GetError(err, w)
 		return
 	}
 
@@ -61,15 +61,15 @@ func getBooks(w http.ResponseWriter, r *http.Request) {
 	for cur.Next(context.TODO()) {
 
 		// create a value into which the single document can be decoded
-		var book models.Book
+		var currencyPrice models.CurrencyPrice
 		// & character returns the memory address of the following variable.
-		err := cur.Decode(&book) // decode similar to deserialize process.
+		err := cur.Decode(&currencyPrice) // decode similar to deserialize process.
 		if err != nil {
 			log.Fatal(err)
 		}
 
 		// add item our array
-		books = append(books, book)
+		books = append(books, currencyPrice)
 	}
 
 	if err := cur.Err(); err != nil {
