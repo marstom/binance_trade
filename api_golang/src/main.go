@@ -23,11 +23,12 @@ import (
 
 func main() {
 	mongoClient := mongo_client.MongoClient{}.Init()
-	fmt.Println(mongoClient)
 	pricesView := PricesView{mongoClient: &mongoClient}
 
 	r := mux.NewRouter()
 	r.HandleFunc("/api/currency/{symbol}", pricesView.getSymbolPrices).Methods("GET")
+	r.HandleFunc("/api/buy-sell/{symbol}", pricesView.getBuySellBySymbol).Methods("GET")
+	fmt.Println("Server started :8000")
 	err := http.ListenAndServe(":8000", r)
 
 	if err != nil {
@@ -41,8 +42,6 @@ type PricesView struct {
 }
 
 func (p *PricesView) getSymbolPrices(w http.ResponseWriter, r *http.Request) {
-
-	fmt.Println(p.mongoClient)
 	vars := mux.Vars(r)
 
 	collection := p.mongoClient.GetCollection(vars["symbol"])
@@ -74,4 +73,35 @@ func (p *PricesView) getSymbolPrices(w http.ResponseWriter, r *http.Request) {
 	}
 
 	json.NewEncoder(w).Encode(currencyPrices) // encode similar to serialize process.
+}
+
+func (p *PricesView) getBuySellBySymbol(w http.ResponseWriter, r *http.Request) {
+	// vars := mux.Vars(r)
+	// symbol := vars["symbol"]
+	collection := p.mongoClient.GetCollection("BUY_SELL")
+
+	var buySell []models.BuySell
+	entry, err := collection.Find(context.TODO(), bson.M{})
+
+	if err != nil {
+		mongo_client.GetError(err, w)
+		return
+	}
+	defer entry.Close(context.TODO())
+
+	w.Header().Set("Content-Type", "application/json")
+
+	for entry.Next(context.TODO()) {
+		var currencyPrice models.BuySell
+		err := entry.Decode(&currencyPrice) // decode similar to deserialize process.
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		buySell = append(buySell, currencyPrice)
+	}
+	if err := entry.Err(); err != nil {
+		log.Fatal(err)
+	}
+	json.NewEncoder(w).Encode(buySell) // encode similar to serialize process.
 }
