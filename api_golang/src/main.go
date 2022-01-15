@@ -30,6 +30,7 @@ func main() {
 
   	// // arrange our route
 	r.HandleFunc("/api/currency/{symbol}", getSymbolPrices).Methods("GET")
+	// r.HandleFunc("/api/currency/{symbol}/buy-sell", getBuySellPrices).Methods("GET") // TODO get buy-sell chart for current crypto
 
   	// set our port address
 	log.Fatal(http.ListenAndServe(":8000", r))
@@ -78,4 +79,9 @@ func getSymbolPrices(w http.ResponseWriter, r *http.Request) {
 	}
 
 	json.NewEncoder(w).Encode(currencyPrices) // encode similar to serialize process.
+}
+
+
+func getBuySellPrices(w http.ResponseWriter, r *http.Request) {
+
 }
