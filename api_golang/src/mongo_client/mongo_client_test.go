@@ -9,7 +9,7 @@ import (
 	"go.mongodb.org/mongo-driver/bson"
 )
 
-func TestFirmtElement(t *testing.T){
+func TestFirmtElement(t *testing.T) {
 	config := MongoClient{}.Init()
 	collection := config.GetCollection("BTCUSDT")
 	cur, _ := collection.Find(context.TODO(), bson.M{})

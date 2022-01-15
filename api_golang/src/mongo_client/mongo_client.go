@@ -13,17 +13,16 @@ import (
 )
 
 type MongoClient struct {
-	Client              *mongo.Client
+	Client *mongo.Client
 }
-
 
 type Configuration struct {
 	Port             string
 	ConnectionString string
 }
 
-func (c MongoClient) Init() MongoClient{
-	c.getClient()
+func (c MongoClient) Init() MongoClient {
+	c.initializeClient()
 	return c
 }
 
@@ -32,10 +31,14 @@ func (c MongoClient) GetCollection(symbol string) *mongo.Collection {
 	return collection
 }
 
-func (c *MongoClient) getClient() {
+func (c *MongoClient) GetClient() *MongoClient {
+	return c
+}
+
+func (c *MongoClient) initializeClient() {
 	config := c.getConfiguration()
 	clientOptions := options.Client().ApplyURI(config.ConnectionString)
-	client , err := mongo.Connect(context.TODO(), clientOptions)
+	client, err := mongo.Connect(context.TODO(), clientOptions)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -57,6 +60,3 @@ func (c MongoClient) getConfiguration() Configuration {
 
 	return configuration
 }
-
-
-

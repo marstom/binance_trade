@@ -10,44 +10,46 @@ package main
 import (
 	"context"
 	"encoding/json"
+	"fmt"
 	"log"
 	"net/http"
 
 	"github.com/gorilla/mux"
 	"go.mongodb.org/mongo-driver/bson"
-	"marstom/src/mongo_client"
 	"marstom/src/models"
+	"marstom/src/mongo_client"
 	// "go.mongodb.org/mongo-driver/mongo/options"
-
 )
 
-var connenction = mongo_client.MongoClient{}.Init()
-
-
 func main() {
-	//Init Router
+	mongoClient := mongo_client.MongoClient{}.Init()
+	fmt.Println(mongoClient)
+	pricesView := PricesView{mongoClient: &mongoClient}
+
 	r := mux.NewRouter()
+	r.HandleFunc("/api/currency/{symbol}", pricesView.getSymbolPrices).Methods("GET")
+	err := http.ListenAndServe(":8000", r)
 
-  	// // arrange our route
-	r.HandleFunc("/api/currency/{symbol}", getSymbolPrices).Methods("GET")
-	// r.HandleFunc("/api/currency/{symbol}/buy-sell", getBuySellPrices).Methods("GET") // TODO get buy-sell chart for current crypto
-
-  	// set our port address
-	log.Fatal(http.ListenAndServe(":8000", r))
+	if err != nil {
+		log.Fatal(err)
+	}
 
 }
 
-func getSymbolPrices(w http.ResponseWriter, r *http.Request) {
+type PricesView struct {
+	mongoClient *mongo_client.MongoClient
+}
 
+func (p *PricesView) getSymbolPrices(w http.ResponseWriter, r *http.Request) {
+
+	fmt.Println(p.mongoClient)
 	vars := mux.Vars(r)
 
-	collection := connenction.GetCollection(vars["symbol"])
+	collection := p.mongoClient.GetCollection(vars["symbol"])
 
 	w.Header().Set("Content-Type", "application/json")
 
 	var currencyPrices []models.CurrencyPrice
-
-	// bson.M{},  we passed empty filter. So we want to get all data.
 	cur, err := collection.Find(context.TODO(), bson.M{})
 
 	if err != nil {
@@ -55,22 +57,15 @@ func getSymbolPrices(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// Close the cursor once finished
-	/*A defer statement defers the execution of a function until the surrounding function returns.
-	simply, run cur.Close() process but after cur.Next() finished.*/
 	defer cur.Close(context.TODO())
 
 	for cur.Next(context.TODO()) {
-
-		// create a value into which the single document can be decoded
 		var currencyPrice models.CurrencyPrice
-		// & character returns the memory address of the following variable.
 		err := cur.Decode(&currencyPrice) // decode similar to deserialize process.
 		if err != nil {
 			log.Fatal(err)
 		}
 
-		// add item our array
 		currencyPrices = append(currencyPrices, currencyPrice)
 	}
 
@@ -79,9 +74,4 @@ func getSymbolPrices(w http.ResponseWriter, r *http.Request) {
 	}
 
 	json.NewEncoder(w).Encode(currencyPrices) // encode similar to serialize process.
-}
-
-
-func getBuySellPrices(w http.ResponseWriter, r *http.Request) {
-
 }
